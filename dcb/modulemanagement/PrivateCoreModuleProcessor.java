@@ -52,33 +52,16 @@ public class PrivateCoreModuleProcessor {
                 if(result_exec != null){
                     handled = (boolean) result_exec;
                 }
+
+                //close
+                jfile.close();
+                child.close();
+
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
         return handled;
     }
-
-    public void startbackgroundtask(JDA jda){
-        if(active) {
-            try {
-                //Get main class from file
-                JarFile jfile = new JarFile("./coremodule/coremodule.jar");
-                Manifest mf = jfile.getManifest();
-                Attributes atr = mf.getMainAttributes();
-                String maincp = atr.getValue("Main-Class");
-
-                //Do magic
-                URL[] clu = new URL[]{new URL("file:./coremodule/coremodule.jar")};
-                URLClassLoader child = new URLClassLoader(clu, this.getClass().getClassLoader());
-                Class<?> classToLoad = Class.forName(maincp, true, child);
-                Method method = classToLoad.getDeclaredMethod("onstart", JDA.class);
-                Object instance = classToLoad.getConstructor().newInstance();
-                method.invoke(instance, jda);   //ignore result
-
-            } catch (Exception e) {
-                System.out.println("[ERROR] " + e);
-            }
-        }
-    }
 }
+

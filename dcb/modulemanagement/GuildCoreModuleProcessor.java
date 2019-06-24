@@ -92,7 +92,6 @@ public class GuildCoreModuleProcessor {
 
                 //close
                 jfile.close();
-                child.close();
             } catch (Exception e) {
                 System.out.println("[ERROR] " + e);
             }
